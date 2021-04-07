@@ -75,7 +75,7 @@
             <!--Navigation bar-->
             <Navbar>
                 <template v-slot:default="{toggleSidebar}">
-                    <div class="d-flex align-items-center w-100">
+                    <div class="d-flex align-items-center w-100 justify-content-between">
                         <!--Hamburger menu-->
                         <div @click="toggleSidebar" class="cursor-pointer">
                             <svg xmlns="http://www.w3.org/2000/svg" class="stroke-default" width="30" height="30"
@@ -88,10 +88,28 @@
                             </svg>
                         </div>
                         <!--Search field-->
-                        <div class="ms-5 d-none d-sm-block" style="width:200px;">
-                            <Dropdown class="w-100" menu-classes="w-100">
+                        <div
+                            class="position-relative rounded-pill"
+                            :class="window_width > 768 ? (searchOpen ? 'w-50' : 'w-25') : (searchOpen ? 'w-75' : 'w-50')"
+                            style="transition: 0.2s all ease"
+                        >
+                            <Dropdown
+                                class="w-100"
+                                menu-classes="w-100"
+                            >
                                 <template #button>
-                                    <Input class="m-0" size="sm" placeholder="Search"></Input>
+                                    <!-- <Input class="m-0" size="md" placeholder="Search"></Input> -->
+                                    <div class="d-flex position-relative">
+                                        <input
+                                            v-model="searchVal"
+                                            ref="search"
+                                            type="text"
+                                            placeholder="Search"
+                                            class="rounded-pill py-2 px-4 search w-100"
+                                            @focus="searchOpen = true"
+                                            @blur="searchOpen = false"
+                                        />
+                                    </div>
                                 </template>
                                 <div class="dropdown-item">
                                     Test Search Link 1
@@ -103,10 +121,17 @@
                                     Test Search Link 3
                                 </div>
                             </Dropdown>
+                            <button
+                                type="submit"
+                                class="bg-danger border-0 rounded-circle search-icon d-flex justify-content-center align-items-center"
+                                @focus="searchVal === '' ? $refs.search.focus() : $router.go({ path: '/' })"
+                            >
+                                <b-icon-search variant="light" scale="0.9"></b-icon-search>
+                            </button>
                         </div>
-                        <div class="ms-auto d-flex flex-row justify-content-end align-items-center">
+                        <div class="d-flex flex-row justify-content-end align-items-center">
                             <!--Notification bell-->
-                            <div class="cursor-pointer position-relative ms-4">
+                            <div class="cursor-pointer position-relative">
                                 <Dropdown size="md" menu-classes="dropdown-menu-sm"
                                           :popper-config="{placement:'bottom-end'}">
                                     <template #button>
@@ -158,7 +183,7 @@
                                 </Dropdown>
                             </div>
                             <!--User avatar with dropdown -->
-                            <div class="ms-5">
+                            <div class="ms-5 d-none d-md-block">
                                 <Dropdown class="">
                                     <template #button>
                                         <div
@@ -205,7 +230,7 @@
                 </template>
             </Navbar>
             <!-- Content with router view -->
-            <div class="content-container container-fluid mt-4 mb-5">
+            <div class="overflow-hidden mb-5">
                 <div class="row">
                     <div class="col">
                         <transition mode="out-in" name="fade">
@@ -230,6 +255,9 @@ export default {
             icons,
             // State of sidebar
             sidebarClosed: false,
+            searchOpen: false,
+            searchVal: "",
+            window_width: 0,
             links: [
                 {
                     name: 'Home',
@@ -343,7 +371,27 @@ export default {
             ]
         }
     },
-
+    computed: {
+        windowWidth: {
+            get() {
+                return this.window_width;
+            },
+            set(val) {
+                this.window_width = val;
+            }
+        }
+    },
+    created() {
+        this.window_width = window.innerWidth;
+        window.addEventListener("resize", () => {
+            this.windowWidth = window.innerWidth;
+        });
+    },
+    destroyed() {
+        window.removeEventListener("resize", () => {
+            this.windowWidth = window.innerWidth;
+        });
+    },
     methods: {
         navigateToPath(path, e) {
             e.stopPropagation();
@@ -369,6 +417,28 @@ export default {
 <style lang="scss">
 .fade-enter {
     opacity: 0;
+}
+
+.dropdown-item {
+    padding: 1rem !important;
+}
+
+.search {
+    position: relative;
+    border: 1px solid #e9e9e9;
+    transition: 0.2s ease;
+}
+
+.search:hover, .search:focus {
+    box-shadow: 0 2px 6px rgba(0,0,0,.25);
+    transition: 0.2s ease;
+}
+
+.search-icon {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.3rem;
+    padding: 0.5rem;
 }
 
 .fade-enter-active,

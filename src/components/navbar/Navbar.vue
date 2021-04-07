@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navigation-bar">
+    <nav class="navbar navigation-bar sticky-top mb-0">
         <slot name="default" :toggle-sidebar="toggleSidebar">
             <div @click="toggleSidebar" class="cursor-pointer">
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-default" width="30" height="30"

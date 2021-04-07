@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Poppins:wght@400;500;700&family=Rubik:wght@300;400;500;700&display=swap');
+
+*:focus{
+    outline: none;
+}
+* {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+}
+ul li {
+    list-style-type: none;
+}
+ul{
+    padding: 0;
+}
+.font-weight-bold {
+    font-weight: 700;
+}
+.fit {
+    object-fit: contain;
+}
+.fit-cover {
+    object-fit: cover;
+}
+.rounded-lg {
+    border-radius: 1rem;
+}
+.card, .card img {
+    border-radius: 0.75rem;
+}
+.font-sm {
+    font-size: 0.8rem;
+}
+.font-sm {
+    font-size: 0.875rem;
+}
+.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+}
+p {
+    font-size: 0.875rem;
+}
+a {
+    text-decoration: none;
+    color: #505050;
+}
+a:hover {
+    text-decoration: none;
+    color: #202020;
+}
